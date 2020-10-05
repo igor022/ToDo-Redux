@@ -13,7 +13,7 @@ class TodoItem extends Component {
 
   render() {
     const todo = this.props.todo;
-    console.log(todo);
+    
     return(
       <div className={`task ${todo.isCompleted ? 'completed' : ''}`}>
         <button className="check" onClick={() => this.handleStatusChange(todo.id, !todo.isCompleted)}></button>
@@ -24,8 +24,8 @@ class TodoItem extends Component {
   } 
 }
 
-const mapStateToProps = (state, ownProps) => {
-  
+const mapStateToProps = (state) => {
+  return {};
 }
 
 const mapDispatchToProps = (dispatch) => {

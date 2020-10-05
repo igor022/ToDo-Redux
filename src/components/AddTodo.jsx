@@ -44,8 +44,8 @@ class AddTodo extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  console.log('AddTodo ownProps', ownProps);
+const mapStateToProps = (state) => {
+  return {};
 }
 
 const mapDispatchToProps = (dispatch) => {

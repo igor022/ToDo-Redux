@@ -19,9 +19,9 @@ class InfoWidget extends Component {
     const { todoCount } = this.props;
     
     const buttons = [
-      { className: 'all', value: 'All', onClick: () => this.props.setFilter(this.props.filterAll) },
-      { className: 'current', value: 'Active', onClick: () => this.props.setFilter(this.props.filterActive) },
-      { className: 'completed', value: 'Completed', onClick: () => this.props.setFilter(this.props.filterCompleted) },
+      { className: 'all', value: 'All', onClick: () => this.props.setFilter(this.props.filterVariants.filterAll) },
+      { className: 'current', value: 'Active', onClick: () => this.props.setFilter(this.props.filterVariants.filterActive) },
+      { className: 'completed', value: 'Completed', onClick: () => this.props.setFilter(this.props.filterVariants.filterCompleted) },
     ];
 
     return(
@@ -56,11 +56,9 @@ class InfoWidget extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    filterAll: state.filterAll,
-    filterActive: state.filterActive,
-    filterCompleted: state.filterCompleted,
+    filterVariants: state.filterVariants,
   }
 }
 

@@ -6,11 +6,6 @@ import { connect } from 'react-redux';
 
 
 class App extends Component {
-  state = {
-    todos: [],
-    filterMethod: this.filterAll,
-  }
-
   filterAll() { return true };
 
   filterActive(todo) { return !todo.isCompleted };
