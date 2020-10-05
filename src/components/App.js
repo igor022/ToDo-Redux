@@ -11,15 +11,11 @@ class App extends Component {
     filterMethod: this.filterAll,
   }
 
-  filterTodo(todo) {this.state.filterMethod(todo)};
-
   filterAll() { return true };
 
   filterActive(todo) { return !todo.isCompleted };
 
   filterCompleted(todo) { return todo.isCompleted };
-
-  
 
   setFilter = (filter) => {
     this.setState({ filterMethod: filter });
@@ -29,14 +25,8 @@ class App extends Component {
     return this.props.todos.filter((todo) => todo.isCompleted);
   } 
 
-  
-  
   render() {
-    const buttons = [
-      { className: 'all', value: 'All', onClick: () => this.setFilter(this.filterAll) },
-      { className: 'current', value: 'Active', onClick: () => this.setFilter(this.filterActive) },
-      { className: 'completed', value: 'Completed', onClick: () => this.setFilter(this.filterCompleted) },
-    ];
+    
 
     const { todos } = this.props;
     
@@ -47,7 +37,7 @@ class App extends Component {
           <AddTodo/>
           <div className="todos" id="todos"> {
             todos
-              .filter(this.state.filterMethod)
+              .filter(this.props.filterMethod)
               .map((todo) => 
                 <TodoItem 
                   todo={todo} 
@@ -57,7 +47,6 @@ class App extends Component {
           } </div>
           <InfoWidget 
             todoCount={todos.length - this.getCompletedTodos().length}
-            buttons={buttons}
             clearAll={this.clearAll}
             checked={this.getCompletedTodos().length > 0}
           />
@@ -69,7 +58,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    todos: state.todos
+    todos: state.todos,
+    filterMethod: state.filterMethod
   }
 }
 

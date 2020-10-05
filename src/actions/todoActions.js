@@ -31,3 +31,10 @@ export const deleteAllCompleted = () => {
         type: 'DELETE_ALL_COMPLETED'
     }
 }
+
+export const setFilter = (filterMethod) => {
+    return {
+        type: 'FILTER',
+        filterMethod
+    }
+}

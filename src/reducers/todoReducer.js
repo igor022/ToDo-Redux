@@ -3,8 +3,19 @@ const initState = {
         {id: 1, text: 'dummy', isCompleted: true},
         {id: 2, text: 'New', isCompleted: false},
         {id: 3, text: 'York', isCompleted: false}
-    ]
+    ],
+    filterMethod: filterAll,
+    filterAll,
+    filterActive,
+    filterCompleted,
 }
+
+ 
+function filterAll() { return true };
+
+function filterActive(todo) { return !todo.isCompleted };
+
+function filterCompleted(todo) { return todo.isCompleted };
 
 
 const todoReducer = (state = initState, action) => {
@@ -25,7 +36,7 @@ const todoReducer = (state = initState, action) => {
                 ...state,
                 todos
             };
-            
+
         case 'ADD_TODO':
             const todo = {
                 text: action.text,
@@ -63,6 +74,12 @@ const todoReducer = (state = initState, action) => {
                 ...state,
                 todos: state.todos.filter((todo) => !todo.isCompleted)
             };
+
+        case 'FILTER':
+            return {
+                ...state,
+                filterMethod: action.filterMethod
+            }
     }
 
     return state;
