@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addTodo, checkAll } from '../actions/todoActions';
 
 class AddTodo extends Component {
   state = {
@@ -42,4 +44,15 @@ class AddTodo extends Component {
   }
 }
 
-export default AddTodo;
+const mapStateToProps = (state, ownProps) => {
+  console.log('AddTodo ownProps', ownProps);
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (text) => { dispatch(addTodo(text))},
+    handleCheckAll: () => { dispatch(checkAll())}
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTodo);

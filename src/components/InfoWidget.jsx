@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { deleteAllCompleted } from '../actions/todoActions';
 
 class InfoWidget extends Component {
   state = {
@@ -39,7 +41,7 @@ class InfoWidget extends Component {
         
         {
           this.props.checked 
-          ? <button className="clear-tasks" onClick={this.props.clearAll}>Clear Completed</button>
+          ? <button className="clear-tasks" onClick={this.props.deleteAllCompleted}>Clear Completed</button>
           : <div className="clear-tasks"></div>
         }
         
@@ -48,4 +50,14 @@ class InfoWidget extends Component {
   }
 }
 
-export default InfoWidget;
+const mapStateToProps = (state, ownProps) => {
+
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteAllCompleted: () => { dispatch(deleteAllCompleted()) } 
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoWidget);

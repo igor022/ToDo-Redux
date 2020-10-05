@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { deleteTodo, changeTodoStatus } from '../actions/todoActions';
 
 class TodoItem extends Component {
   handleDelete = (id) => {
@@ -13,10 +13,10 @@ class TodoItem extends Component {
 
   render() {
     const todo = this.props.todo;
-
+    console.log(todo);
     return(
-      <div className={`task ${todo.completed ? 'completed' : ''}`}>
-        <button className="check" onClick={() => this.handleStatusChange(todo.id, !todo.completed)}></button>
+      <div className={`task ${todo.isCompleted ? 'completed' : ''}`}>
+        <button className="check" onClick={() => this.handleStatusChange(todo.id, !todo.isCompleted)}></button>
         <p>{todo.text}</p>
         <button className="delete" onClick={() => this.handleDelete(todo.id)}></button>
       </div>
@@ -25,13 +25,15 @@ class TodoItem extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('ownProps', ownProps);
+  
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteTodo: (id) => { dispatch({type: 'DELETE_TODO', id: id})},
-    changeTodoStatus: (id, isCompleted) => { dispatch({type: 'CHANGE_TODO_STATUS', id, isCompleted })}
+    deleteTodo: (id) => { dispatch(deleteTodo(id)) },
+    changeTodoStatus: (id, isCompleted) => { 
+      dispatch(changeTodoStatus(id, isCompleted)) 
+    }
   }
 }
 
