@@ -10,7 +10,17 @@ const initState = {
 const todoReducer = (state = initState, action) => {
     console.log('action', action);
 
- 
+    if (action.type === 'ADD_TODO') {
+        const todo = {
+            text: action.text,
+            completed: false,
+            id: Math.random()
+        };
+      
+        this.setState((state) => ({
+            todos: [...state.todos, todo]
+        }));
+    }
 
     if (action.type === 'CHANGE_TODO_STATUS') {
         const todoIndex = state.todos.findIndex((todo) => todo.id === action.id);
