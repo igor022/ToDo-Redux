@@ -1,27 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { deleteAllCompleted, setFilter } from '../actions/todoActions';
+import { ALL, ACTIVE, COMPLETED } from '../filters/filterTypes';
 
 class InfoWidget extends Component {
   state = {
     selected: 0
   } 
 
-  changeSelected = (button, i) => {
+  onClick = (button, i) => {
     this.setState({
       selected: i
     })
-    button.onClick();
+    button.setFilter();
   }
  
   
   render() {
     const { todoCount } = this.props;
-    
+
     const buttons = [
-      { className: 'all', value: 'All', onClick: () => this.props.setFilter(this.props.filterVariants.filterAll) },
-      { className: 'current', value: 'Active', onClick: () => this.props.setFilter(this.props.filterVariants.filterActive) },
-      { className: 'completed', value: 'Completed', onClick: () => this.props.setFilter(this.props.filterVariants.filterCompleted) },
+      { className: 'all', value: 'All', setFilter: () => this.props.setFilter(ALL) },
+      { className: 'current', value: 'Active', setFilter: () => this.props.setFilter(ACTIVE) },
+      { className: 'completed', value: 'Completed', setFilter: () => this.props.setFilter(COMPLETED) },
     ];
 
     return(
@@ -36,7 +37,7 @@ class InfoWidget extends Component {
               <button 
                 className={`${b.className} ${this.state.selected === i ? 'selected' : ''}`} 
                 key={i}
-                onClick={() => this.changeSelected(b, i)}
+                onClick={() => this.onClick(b, i)}
               >
                 {b.value}
               </button>
@@ -65,7 +66,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteAllCompleted: () => { dispatch(deleteAllCompleted()) },
-    setFilter: (filterMethod) => { dispatch(setFilter(filterMethod)) } 
+    setFilter: (filterName) => { dispatch(setFilter(filterName)) } 
   }
 }
 

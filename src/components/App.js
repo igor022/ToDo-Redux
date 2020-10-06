@@ -4,27 +4,41 @@ import TodoItem from './TodoItem';
 import InfoWidget from './InfoWidget';
 import { connect } from 'react-redux';
 
+import { ALL, ACTIVE, COMPLETED } from '../filters/filterTypes';
+
 
 class App extends Component {
-  filterAll() { return true };
-
-  filterActive(todo) { return !todo.isCompleted };
-
-  filterCompleted(todo) { return todo.isCompleted };
-
-  setFilter = (filter) => {
-    this.setState({ filterMethod: filter });
-  }
 
   getCompletedTodos = () =>  {
     return this.props.todos.filter((todo) => todo.isCompleted);
   } 
 
-  render() {
-    
+  filterAll() { return true };
 
+  filterActive(todo) { return !todo.isCompleted };
+
+  filterCompleted(todo) { return todo.isCompleted };
+  
+  getFilterByName(filterName) {
+    switch (filterName) {
+      case ALL:
+        return this.filterAll;
+
+      case ACTIVE:
+        return this.filterActive;
+
+      case COMPLETED:
+        return this.filterCompleted;
+
+      default:
+        break;
+    }
+  }
+  render() {
     const { todos } = this.props;
-    
+    const filterMethod = this.getFilterByName(this.props.filterName);
+    console.log(filterMethod);
+
     return (
       <div className="App">
         <h1>todos</h1>
@@ -32,7 +46,7 @@ class App extends Component {
           <AddTodo/>
           <div className="todos" id="todos"> {
             todos
-              .filter(this.props.filterMethod)
+              .filter(filterMethod)
               .map((todo) => 
                 <TodoItem 
                   todo={todo} 
@@ -42,7 +56,6 @@ class App extends Component {
           } </div>
           <InfoWidget 
             todoCount={todos.length - this.getCompletedTodos().length}
-            clearAll={this.clearAll}
             checked={this.getCompletedTodos().length > 0}
           />
         </div>
@@ -54,9 +67,8 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
-    filterMethod: state.filterMethod
+    filterName: state.filterName
   }
 }
-
 
 export default connect(mapStateToProps)(App);

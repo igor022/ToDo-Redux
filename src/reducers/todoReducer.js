@@ -1,29 +1,39 @@
+import { 
+    ADD_TODO, 
+    CHECK_ALL, 
+    CHANGE_TODO_STATUS, 
+    DELETE_TODO, 
+    DELETE_ALL_COMPLETED, 
+    FILTER 
+} from '../actions/actionTypes';
+
+
 const initState = {
     todos: [
         {id: 1, text: 'dummy', isCompleted: true},
         {id: 2, text: 'New', isCompleted: false},
         {id: 3, text: 'York', isCompleted: false}
     ],
-    filterMethod: filterAll,
-    filterVariants: {
-        filterAll,
-        filterActive,
-        filterCompleted,
-    }
+    filterName: 'ALL',
 }
 
- 
-function filterAll() { return true };
-
-function filterActive(todo) { return !todo.isCompleted };
-
-function filterCompleted(todo) { return todo.isCompleted };
-
 const todoReducer = (state = initState, action) => {
-
     switch (action.type) {
-        
-        case 'CHECK_ALL':
+        case ADD_TODO:
+            {
+                const todo = {
+                    text: action.text,
+                    isCompleted: false,
+                    id: Math.random()
+                };
+                
+                return {
+                    ...state,
+                    todos: [...state.todos, todo]
+                };
+            }
+
+        case CHECK_ALL:
             {
                 const completedTodos = state.todos.filter((todo) => todo.isCompleted);
                 const isVisible = (completedTodos.length - state.todos.length !== 0);
@@ -39,22 +49,8 @@ const todoReducer = (state = initState, action) => {
                     todos: updatedTodos
                 };
             }
-
-        case 'ADD_TODO':
-            {
-                const todo = {
-                    text: action.text,
-                    isCompleted: false,
-                    id: Math.random()
-                };
-                
-                return {
-                    ...state,
-                    todos: [...state.todos, todo]
-                };
-            }
-            
-        case 'CHANGE_TODO_STATUS':
+                    
+        case CHANGE_TODO_STATUS:
             {
                 const todoIndex = state.todos.findIndex((todo) => todo.id === action.id);
                 if (todoIndex !== -1) {
@@ -67,9 +63,10 @@ const todoReducer = (state = initState, action) => {
                         todos: updatedTodos
                     }
                 };
+                break;
             }
 
-        case 'DELETE_TODO':
+        case DELETE_TODO:
             {
                 const updatedTodos = state.todos.filter((todo) => todo.id !== action.id);
                 return {
@@ -78,7 +75,7 @@ const todoReducer = (state = initState, action) => {
                 };
             }
 
-        case 'DELETE_ALL_COMPLETED':
+        case DELETE_ALL_COMPLETED:
             {
                 return {
                     ...state,
@@ -86,13 +83,16 @@ const todoReducer = (state = initState, action) => {
                 };
             }
 
-        case 'FILTER':
+        case FILTER:
             {
                 return {
                     ...state,
-                    filterMethod: action.filterMethod
+                    filterName: action.filterName
                 };
             }
+        
+        default:
+            break;
     }
 
     return state;
